@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
 
 function Time(){
-    const[time, setTime] = useState("");
+    const[time, setTime] = useState("Loading...");
+
+
 
     useEffect(() => {
         const fetchData = async() => {
@@ -15,11 +17,16 @@ function Time(){
             }
         };
 
-        fetchData();
+        const delayId = setTimeout(() => {
+            fetchData();
 
-        const intervalId = setInterval(fetchData, 1000);
+            const intervalId = setInterval(fetchData, 1000);
+    
+            return () => clearInterval(intervalId);
+        }, 500);
 
-        return () => clearInterval(intervalId);
+        return () => clearTimeout(delayId);
+        
     }, []);
 
     return(
