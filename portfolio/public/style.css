@@ -6,16 +6,17 @@ body{
 }
 
 @font-face {
-    font-family: 'CustomFont';
-    src: url("./text/Retro\ Gaming.ttf") format('truetype');
-  }
-  
+    font-family: "retro";
+    src: url("./Retro\ Gaming.ttf");
+}
+
 
 .custom-container *{
   color : #776B5D;
-  font-family : 'CustomFont', sans-serif;
+  font-family : "retro", sans-serif;
                                                 
 }
+
 
 
 .custom-container{
