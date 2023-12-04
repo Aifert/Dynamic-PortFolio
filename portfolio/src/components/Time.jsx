@@ -24,8 +24,8 @@ function Time(){
 
     return(
         <div className = "container">
-            <h3 class = "mt-5 mb-2">{time} </h3>
-            <h4 class = "mb-5"> Current Time for Me </h4>
+            <h3 className = "mt-5 mb-2">{time} </h3>
+            <h4 className = "mb-5"> Current Time for Me </h4>
         </div>
     )
 }  
