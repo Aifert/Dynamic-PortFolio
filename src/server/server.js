@@ -79,7 +79,7 @@ app.get("/api/getSong", async (req, res) => {
     const access_token = await getAccessToken();
     const tracks = await getTracks(access_token);
     var randomSong = await tracks[generateRandomNumber(tracks.length)];
-    const {album, name, preview_url} = randomSong.track;
+    const {album, name, preview_url, artists} = randomSong.track;
     while(album === null || name === null || preview_url===null){
         randomSong = await tracks[generateRandomNumber(tracks.length)];
     }
@@ -88,7 +88,8 @@ app.get("/api/getSong", async (req, res) => {
     res.json({
         imageURL : image[0].url,
         songName : name,
-        previewURL : preview_url
+        previewURL : preview_url,
+        artist : artists[0].name
     })
 })
 

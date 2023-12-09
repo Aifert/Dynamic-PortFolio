@@ -4,6 +4,7 @@ function Music(){
     const [imageURL, setImageURL] = useState('');
     const [songName, setSongName] = useState('');
     const [previewURL, setPreviewURL] = useState('');
+    const [artistName, setArtistName] = useState('');
     const [audio, setAudio] = useState(null);
     const [play, setPlay] = useState(false);
     const [preview, setPreview] = useState("Play Preview");
@@ -12,10 +13,12 @@ function Music(){
         try {
           const response = await fetch("http://localhost:4000/api/getSong");
           const data = await response.json();
-          const { imageURL, songName, previewURL } = data;
+          const { imageURL, songName, previewURL, artist} = data;
           setImageURL(imageURL);
           setSongName(songName);
           setPreviewURL(previewURL);
+          setArtistName(artist);
+          console.log(artist);
         } catch (error) {
           console.log(error.message);
         }
@@ -55,7 +58,7 @@ function Music(){
                 <img src={imageURL} alt="albumURL"/>
             </div>
             <p>Currently listening to... </p>
-            <h3 className = "songName mb-4">{songName}</h3>
+            <h3 className = "songName mb-4">{songName} - {artistName}</h3>
             <button onClick={async () => {
                 if (previewURL === null) {
                     setPreview("No preview found, skipping to next song");
