@@ -72,6 +72,7 @@ body{
   text-decoration : none;
 }
 
+
 @media (max-width: 1600px) and (min-width : 430px) {
   .main {
       scale : 80%;
@@ -85,3 +86,39 @@ body{
     scale : 70%;
   }
 }
+
+#root .record{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items: center;
+}
+
+#root .recordCard {
+  background-color : #525252;
+  height : 200px;
+  width : 200px;
+  border-radius : 50%;
+  display : flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root .recordCard img{
+  height : 70%;
+  width : 70%;
+  border-radius : 50%;
+  animation : 5s linear 1s infinite normal none running spinRecord;
+}
+
+@keyframes spinRecord {
+  0%{
+    transform : rotate(0);
+  }
+  100%{
+    transform : rotate(360deg);
+  }
+  
+}
+
+

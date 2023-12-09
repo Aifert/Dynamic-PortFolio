@@ -8,6 +8,7 @@ import Time from "./components/Time.jsx";
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 
+ReactDOM.render(<Time />, document.getElementById("time"));
+
 ReactDOM.render(<App />, document.getElementById("root"));
 
-ReactDOM.render(<Time />, document.getElementById("time"));

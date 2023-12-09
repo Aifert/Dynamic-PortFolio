@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import Frontpage from "./pages/Frontpage.jsx";
+import Music from "./Music.jsx";
 
 function App(){
     const [isClicked, setisClicked] = useState(false);
@@ -9,7 +10,9 @@ function App(){
     }
     
     return (
-    <div>{isClicked ? undefined :<button onClick={handleonclick}>Expand</button>}
+    <div>
+    <Music />
+    {isClicked ? undefined :<button onClick={handleonclick} className="mt-5">Expand</button>}
     <Frontpage expand = {isClicked}/>
     {isClicked ? <button onClick={handleonclick}>Collapse</button> : undefined}
     </div>
