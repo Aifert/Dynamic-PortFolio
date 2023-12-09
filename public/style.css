@@ -127,7 +127,7 @@ body{
   height : 70%;
   width : 70%;
   border-radius : 50%;
-  animation : 5s linear 1s infinite normal none running spinRecord;
+  animation : 10s linear 1s infinite normal none running spinRecord;
 }
 
 @keyframes spinRecord {

@@ -37,7 +37,7 @@ async function getAccessToken(){
 
 async function getTracks(access_token){
     try{
-        const response = await axios.get(`https://api.spotify.com/v1/playlists/${process.env.newpathID}`,{
+        const response = await axios.get(`https://api.spotify.com/v1/playlists/${process.env.playlistID}`,{
             headers : {
                 'Authorization' : `Bearer ${access_token}`
             }
