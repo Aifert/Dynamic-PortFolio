@@ -7,94 +7,85 @@ import 'dotenv/config';
 const app = express();
 const port = 4000;
 const timeUrl = "https://timeapi.io/api/Time/current/zone";
-const spotifyUrl = "https://accounts.spotify.com/api/";
 
-app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.static('public'));
 
-function generateRandomNumber(max_number){
-    return (Math.floor(Math.random() * max_number));
+function generateRandomNumber(max_number) {
+    return Math.floor(Math.random() * max_number);
 }
 
-async function getAccessToken(){
-    try{
+async function getAccessToken() {
+    try {
         const response = await axios.post(
             'https://accounts.spotify.com/api/token',
             new URLSearchParams({
-              'grant_type': 'client_credentials',
-              'client_id': process.env.clientID,
-              'client_secret': process.env.clientSecret
+                'grant_type': 'client_credentials',
+                'client_id': process.env.clientID,
+                'client_secret': process.env.clientSecret
             })
-          );
-        const {access_token} = response.data;
-        return access_token;
-        }
-    catch(error){
-        console.log(error.message);
+        );
+        return response.data.access_token;
+    } catch (error) {
+        console.error(error.message);
+        throw new Error('Failed to get access token');
     }
 }
 
-async function getTracks(access_token){
-    try{
-        const response = await axios.get(`https://api.spotify.com/v1/playlists/${process.env.playlistID}`,{
-            headers : {
-                'Authorization' : `Bearer ${access_token}`
+async function getTracks(access_token) {
+    try {
+        const response = await axios.get(`https://api.spotify.com/v1/playlists/${process.env.playlistID}`, {
+            headers: {
+                'Authorization': `Bearer ${access_token}`
             }
         });
-        const {tracks} = response.data;
-        return tracks.items;
-    }
-    catch(error){
-        console.log(error.message);
+        return response.data.tracks.items;
+    } catch (error) {
+        console.error(error.message);
+        throw new Error('Failed to get tracks');
     }
 }
 
-
-app.get("/api/getTime", async (req, res) =>{
-    var time;
-    try{
-        const response = await axios.get(`${timeUrl}?timeZone=Australia/Perth`);
-        const {hour, minute, seconds} = response.data;
-        if(minute < 10){
-            if(seconds < 10){
-                time = `${hour} : 0${minute} : 0${seconds}`
-            }
-            else{
-                time = `${hour} : 0${minute} : ${seconds}`
-            }
-        }
-        else if(seconds < 10){
-            time = `${hour} : ${minute} : 0${seconds}`
-        }
-        res.json({time});
+async function getRandomSong(tracks) {
+    let randomSong = tracks[generateRandomNumber(tracks.length)];
+    while (randomSong.track.album === null || randomSong.track.name === null || randomSong.track.preview_url === null) {
+        randomSong = tracks[generateRandomNumber(tracks.length)];
     }
-    catch(error){
-        console.log(error.message);
+    return randomSong.track;
+}
+
+app.get("/api/getTime", async (req, res) => {
+    try {
+        const response = await axios.get(`${timeUrl}?timeZone=Australia/Perth`);
+        const { hour, minute, seconds } = response.data;
+        const time = `${hour}:${minute < 10 ? '0' : ''}${minute}:${seconds < 10 ? '0' : ''}${seconds}`;
+        res.json({ time });
+    } catch (error) {
+        console.error(error.message);
         res.status(500).json({ error: 'Internal Server Error' });
     }
-})
+});
 
 app.get("/api/getSong", async (req, res) => {
-    const access_token = await getAccessToken();
-    const tracks = await getTracks(access_token);
-    var randomSong = await tracks[generateRandomNumber(tracks.length)];
-    const {album, name, preview_url, artists} = randomSong.track;
-    while(album === null || name === null || preview_url===null){
-        randomSong = await tracks[generateRandomNumber(tracks.length)];
+    try {
+        const access_token = await getAccessToken();
+        const tracks = await getTracks(access_token);
+        const randomSong = await getRandomSong(tracks);
+        const { album, name, preview_url, artists } = randomSong;
+        const image = album.images.find(p => p.height === 640);
+        res.json({
+            imageURL: image ? image.url : '',
+            songName: name,
+            previewURL: preview_url,
+            artist: artists[0].name
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-    const {images} = album;
-    const image = images.filter((p) => p.height === 640)
-    res.json({
-        imageURL : image[0].url,
-        songName : name,
-        previewURL : preview_url,
-        artist : artists[0].name
-    })
-})
+});
 
-
-
-app.listen(port, ()=>{
+app.listen(port, () => {
     console.log(`Server running on ${port} successfully`);
-})
+});
