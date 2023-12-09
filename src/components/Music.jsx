@@ -18,7 +18,6 @@ function Music(props){
           setSongName(songName);
           setPreviewURL(previewURL);
           setArtistName(artist);
-          console.log(artist);
         } catch (error) {
           console.log(error.message);
         }
