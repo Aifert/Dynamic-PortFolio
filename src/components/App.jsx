@@ -11,10 +11,18 @@ function App(){
     
     return (
     <div>
-    <Music />
-    {isClicked ? undefined :<button onClick={handleonclick} className="mt-5">Expand</button>}
+    <Music expand = {!isClicked}/>
+    {isClicked ? undefined :<img onClick={handleonclick} className = "button dropdown mt-5" src={process.env.PUBLIC_URL + '/images/button-arrow-expand-1-64.png'} alt="Button" />}
     <Frontpage expand = {isClicked}/>
-    {isClicked ? <button onClick={handleonclick}>Collapse</button> : undefined}
+    {isClicked ? 
+    <img
+        onClick={handleonclick}
+        className={`button up mt-5 ${isClicked ? 'rotate' : ''}`}
+        src={process.env.PUBLIC_URL + '/images/button-arrow-expand-1-64.png'}
+        alt="Button"
+    /> :
+    undefined
+    }
     </div>
     );
 }

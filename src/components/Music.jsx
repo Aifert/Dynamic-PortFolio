@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-function Music(){
+function Music(props){
     const [imageURL, setImageURL] = useState('');
     const [songName, setSongName] = useState('');
     const [previewURL, setPreviewURL] = useState('');
@@ -47,12 +47,14 @@ function Music(){
       };
 
     useEffect(() => {
-        fetchData();
-        setPreview("Play Preview");
+        if(props.expand){
+            fetchData();
+            setPreview("Play Preview");
+        }
       }, []);
     
-
-    return (
+    if(props.expand){
+        return (
         <div className="record">
             <div className="recordCard mb-3"> 
                 <img src={imageURL} alt="albumURL"/>
@@ -72,6 +74,11 @@ function Music(){
             }} >{preview}</button>
         </div>
     )
+    }
+    else{
+        return null;
+    }
+    
 }
 
 export default Music;

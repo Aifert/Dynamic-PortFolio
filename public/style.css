@@ -65,7 +65,7 @@ body{
 
 .guide{
     list-style : none;
-    font-size : 1.2rem;
+    font-size : 1.4rem;
 }
 
 .guide > li > a{
@@ -86,6 +86,25 @@ body{
     scale : 70%;
   }
 }
+
+#root .button{
+  cursor : pointer;
+  transition : opacity 0.3s;
+}
+
+.button:hover{
+  opacity : 0.8
+}
+
+.collapse{
+  background-color: red;
+}
+
+.rotate {
+  transform: rotate(180deg);
+  transition: transform 10s ease;
+}
+
 
 #root .record{
   display : flex;
