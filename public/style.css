@@ -130,6 +130,11 @@ body{
   animation : 10s linear 1s infinite normal none running spinRecord;
 }
 
+#root .buttons{
+  display : flex;
+  flex-direction : row;
+}
+
 @keyframes spinRecord {
   0%{
     transform : rotate(0);

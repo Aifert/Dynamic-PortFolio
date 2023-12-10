@@ -59,7 +59,7 @@ app.get("/api/getTime", async (req, res) => {
     try {
         const response = await axios.get(`${timeUrl}?timeZone=Australia/Perth`);
         const { hour, minute, seconds } = response.data;
-        const time = `${hour}:${minute < 10 ? '0' : ''}${minute}:${seconds < 10 ? '0' : ''}${seconds}`;
+        const time = `${hour} : ${minute < 10 ? '0' : ''}${minute} : ${seconds < 10 ? '0' : ''}${seconds}`;
         res.json({ time });
     } catch (error) {
         console.error(error.message);

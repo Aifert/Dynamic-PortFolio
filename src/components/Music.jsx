@@ -7,7 +7,7 @@ function Music(props){
     const [artistName, setArtistName] = useState('');
     const [audio, setAudio] = useState(null);
     const [play, setPlay] = useState(false);
-    const [preview, setPreview] = useState("Play Preview");
+    const [preview, setPreview] = useState("Play");
 
     const fetchData = async () => {
         try {
@@ -48,9 +48,17 @@ function Music(props){
     useEffect(() => {
         if(props.expand){
             fetchData();
-            setPreview("Play Preview");
+            setPreview("Play");
         }
       }, []);
+
+    function handleNext(){
+      setPreview("Play");
+      audio.pause();
+      setPlay(false);
+      setAudio(null);
+      fetchData();
+    }
     
     if(props.expand){
         return (
@@ -60,17 +68,21 @@ function Music(props){
             </div>
             <p>Currently listening to... </p>
             <h3 className = "songName mb-4">{songName} - {artistName}</h3>
-            <button onClick={async () => {
+            <div className = "buttons">
+              <button className="button mx-2" onClick={async () => {
                 if (previewURL === null) {
                     setPreview("No preview found, skipping to next song");
                     setTimeout(async () => {
                         await fetchData();
-                        setPreview("Play Preview");
+                        setPreview("Play");
                     }, 3000);
                 } else {
                     playAudio();
                 }
             }} >{preview}</button>
+            <button className = "button mx-2" onClick={handleNext}>Next</button>
+            </div>
+            
         </div>
     )
     }
