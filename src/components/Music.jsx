@@ -54,9 +54,11 @@ function Music(props){
 
     function handleNext(){
       setPreview("Play");
-      audio.pause();
       setPlay(false);
       setAudio(null);
+      if(audio){
+        audio.pause();
+      }
       fetchData();
     }
     
