@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 
 function Music(props){
-    const [imageURL, setImageURL] = useState('');
+    const [imageURL, setImageURL] = useState(`${process.env.PUBLIC_URL}/images/verdy-removebg-preview.png`);
     const [songName, setSongName] = useState('');
     const [previewURL, setPreviewURL] = useState('');
     const [artistName, setArtistName] = useState('');
